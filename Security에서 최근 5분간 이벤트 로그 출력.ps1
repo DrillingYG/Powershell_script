@@ -1,0 +1,1 @@
+﻿Get-WinEvent -LogName 'Security' | Where-Object {$_.TimeCreated -gt $((Get-Date) - (New-TimeSpan -Minute 5)) -AND $_.TimeCreated -le $(Get-Date)} | Select-Object -property 'timeCreated', 'ProviderName', 'Id'
