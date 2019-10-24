@@ -8,13 +8,13 @@ $Before
 foreach($Logfile in $Logfiles){
     if($Logfile.RecordCount -gt 0){
         $Logname = $Logfile.LogName                              # Log file name
-        if($LogName -eq "Security" -or $Logname -eq "System"){
+        <# if($LogName -eq "Security" -or $Logname -eq "System"){
                 continue
-        }                                    
+        } #>       
         Write-Host -NoNewline "Current : " 
         $Logname
 
-        $LogContents= Get-WinEvent -LogName $LogName 
+        $LogContents= Get-WinEvent -LogName $LogName -MaxEvents 100
         
         if($LogContents.Length -gt 0){
             
@@ -22,10 +22,8 @@ foreach($Logfile in $Logfiles){
             $Logname = $Logname -replace "/", "%4"
             Write-Host -NoNewline 'Filename : '
             $LogName
-
             $LogContents | Export-Csv -NoTypeInformation -Path "C:\Users\dfrc\Desktop\Logfile Dir\$Logname.csv" -Append -Encoding UTF8
         }    
     }
 }
 
-Get-Date
